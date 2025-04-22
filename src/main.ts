@@ -1,0 +1,39 @@
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import * as path from 'path';
+import { join } from 'path';
+import * as hbs from 'hbs';
+import { JwtService } from '@nestjs/jwt';
+import * as cookieParser from 'cookie-parser';
+
+async function bootstrap() {
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+
+  app.use(cookieParser()); // 👈 ici
+  
+  // Configurer le moteur de template Handlebars
+  app.setViewEngine('hbs');
+
+  // Définir le dossier où les templates sont stockés
+  app.setBaseViewsDir(join(__dirname, '..', 'views'));
+
+  // 👇 Configuration des fichiers statiques
+  app.useStaticAssets(join(__dirname, '..', 'public'));
+
+  // 👉 Dossier des partials
+  hbs.registerPartials(join(__dirname, '..', 'views', 'includes'));
+
+  hbs.registerHelper('eq', (a, b) => a === b);
+
+  hbs.registerHelper('formatTime', function (date) {
+    const d = new Date(date);
+    return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  });
+
+  // console.log(jwt.sign({ email: 'eliefenohasina', password : '1234@azer' }));
+
+
+  await app.listen(3000);
+}
+bootstrap();

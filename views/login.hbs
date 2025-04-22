@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Head -->
+
+<head>
+    {{> head}}
+</head>
+
+<body class="bg-light">
+
+    <div class="container">
+        <div class="row align-items-center justify-content-center min-vh-100 gx-0">
+
+            <div class="col-12 col-md-5 col-lg-4">
+                <div class="card card-shadow border-0">
+                    <div class="card-body">
+                        <form class="row g-6" action="/auth/login" method="post">
+                            <div class="col-12">
+                                <div class="text-center">
+                                    <h3 class="fw-bold mb-2">Se connecter</h3>
+                                    <p>Connectez-vous à votre compte</p>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" required id="signin-email" name="email" placeholder="Email">
+                                    <label for="signin-email">E-mail ou téléphone</label>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <input type="password" class="form-control" required id="signin-password" name="password"
+                                        placeholder="Password">
+                                    <label for="signin-password">Mot de passe</label>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <button class="btn btn-block btn-lg btn-primary w-100" type="submit">Se
+                                    connecter</button>
+                            </div>
+
+                        {{#if error}}
+                            <div class="col-12">
+                                <div class="alert alert-danger" role="alert">
+                                {{error}}
+                                </div>
+                            </div>
+                        {{/if}}
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Text -->
+                <div class="text-center mt-8">
+                    <p>Vous n'avez pas encore de compte ? <a href="/auth/register">S'inscrire</a></p>
+                    <p><a href="/auth/reset-password">Mot de passe oublié ?</a></p>
+                </div>
+            </div>
+        </div> <!-- / .row -->
+    </div>
+
+    <!-- Scripts -->
+    {{> script}}
+</body>
+
+<!-- Mirrored from offsetcode.com/themes/messenger/2.2.0/signin.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 18 Apr 2025 06:06:58 GMT -->
+
+</html>
