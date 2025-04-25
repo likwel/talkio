@@ -81,7 +81,14 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
       payload.content,
     );
 
+    console.log(`✅ Client ${client.id} joined room group-${payload.groupId}`);
+
     this.server.to(`group-${payload.groupId}`).emit('groupMessage', message);
+    // this.server.to(`group-${payload.groupId}`).emit('groupSystem', {
+    //   message: `${payload.fromUserId} a rejoint le groupe`,
+    //   type: 'system',
+    // });
+
   }
 
   // Rejoindre une room
@@ -94,6 +101,9 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
       client.join(`user-${payload.userId}`);
       console.log(`✅ Client ${client.id} joined room user-${payload.userId}`);
     }
-    if (payload.groupId) client.join(`group-${payload.groupId}`);
+    if (payload.groupId) {
+      client.join(`group-${payload.groupId}`);
+      console.log(`✅ Client ${client.id} joined room group-${payload.groupId}`);
+    }
   }
 }

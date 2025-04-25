@@ -93,10 +93,22 @@ export class ChatService {
         return conversation;
     }
 
+    async createGroupConversation(name: string, participantIds: number[]): Promise<Conversation> {
+        const participants = await this.userRepository.findByIds(participantIds);
+
+        const conversation = this.conversationRepository.create({
+            name,
+            isGroup: true,
+            participants,
+        });
+
+        return await this.conversationRepository.save(conversation);
+    }
+
     async getGroupConversation(groupId: string) {
         return this.conversationRepository.findOne({
             where: { id: Number(groupId), isGroup: true },
-            relations: ['messages', 'messages.sender'],
+            relations: ['participants', 'messages', 'messages.sender'],
         });
     }
 
@@ -116,4 +128,61 @@ export class ChatService {
             .orderBy('messages.createdAt', 'DESC')
             .getMany();
     }
+
+    async getUserConversationsSorted(userId: number) {
+        const conversations = await this.conversationRepository
+            .createQueryBuilder('conversation')
+            .innerJoin('conversation.participants', 'participant', 'participant.id = :userId', { userId })
+            .leftJoinAndSelect('conversation.messages', 'message')
+            .leftJoinAndSelect('message.sender', 'sender')
+            .leftJoinAndSelect('conversation.participants', 'allParticipants')
+            .orderBy('message.createdAt', 'DESC')
+            .getMany();
+
+        return conversations.map(conversation => {
+            // Dernier message
+            const lastMessage = conversation.messages?.sort((a, b) =>
+                new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+            )[0] || null;
+
+            // Nom de la conversation :
+            // - si c'est un groupe => utiliser le nom
+            // - sinon => trouver l'autre utilisateur
+            let displayName = conversation.name;
+
+            let displayAvatar: string | null = null;
+
+            if (!conversation.isGroup) {
+                const otherUser = conversation.participants.find(p => p.id !== userId);
+                displayName = otherUser?.username || 'Inconnu';
+                displayAvatar = otherUser?.photo || null; // ✅ maintenant c'est OK
+            }
+
+            const isSender = lastMessage?.sender?.id === userId;
+
+            let receiverId;
+            let receiverName;
+            let receiverColor;
+
+            if (!conversation.isGroup && lastMessage) {
+                const otherUser = conversation.participants.find(p => p.id !== userId);
+                receiverId = isSender ? otherUser?.id : lastMessage.sender.id;
+                receiverName = isSender ? otherUser?.username : lastMessage.sender.username;
+                receiverColor = isSender ? otherUser?.avatarColor : lastMessage.sender.avatarColor;
+            }
+
+            return {
+                id: conversation.id,
+                isGroup: conversation.isGroup,
+                name: displayName,
+                avatar: displayAvatar,
+                participants: conversation.participants,
+                lastMessage,
+                receiverId,
+                receiverName,
+                receiverColor,
+            };
+        });
+    }
+
 }

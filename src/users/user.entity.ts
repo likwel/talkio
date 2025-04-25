@@ -21,6 +21,9 @@ export class User {
   @Column({ default: null })
   photo: string;
 
+  @Column({ nullable: true })
+  avatarColor: string;
+
   @Column({ default: 0 })
   status: number;
 

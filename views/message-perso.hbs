@@ -56,8 +56,8 @@
 
                                             <div class="col overflow-hidden">
                                                 <h5 class="text-truncate">{{otherUser.username}}</h5>
-                                                <p class="text-truncate small d-none" id="typingMessage_head">écrit<span
-                                                        class='typing-dots'><span> •</span><span>•</span><span>•</span></span>
+                                                <p class="text-truncate small"><span id="status_head">connecté(e)</span><span
+                                                        class='typing-dots d-none' id="typingMessage_head"><span> •</span><span>•</span><span>•</span></span>
                                                 </p>
                                                 
                                             </div>
@@ -126,43 +126,95 @@
                         <div class="chat-body-inner">
                             <div class="py-6 py-lg-12">
 
-                                {{#each messages}}
-                                <!-- Divider par date -->
-                                <div class="message-divider">
-                                    <small class="btn btn-light py-1">{{@key}}.</small>
-                                </div>
+                                {{#if (hasMessages messages)}}
 
-                                {{#each this}}
-                                    <div class="message 
-                                                {{#if (eq sender.id ../../currentUserId)}}message-out{{/if}} 
-                                                {{#unless (eq sender.id ../../currentUserId)}}align-items-start{{/unless}}">
-                                    <a href="#" class="avatar avatar-responsive {{#if (eq sender.id ../../currentUserId)}}d-none{{/if}}" data-bs-toggle="modal" data-bs-target="#modal-user-profile">
-                                        <img class="avatar-img" src="/img/avatars/2.jpg" alt="{{sender.username}}">
-                                    </a>
+                                    {{#each messages}}
+                                    <!-- Divider par date -->
+                                    <div class="message-divider">
+                                        <small class="btn btn-light py-1">{{@key}}.</small>
+                                    </div>
 
-                                    <div class="message-inner">
-                                        <div class="message-body">
-                                        <div class="message-content">
-                                            <div class="message-text py-2 px-4">
-                                            <p>{{content}}</p>
+                                    {{#each this}}
+                                        <div class="message 
+                                                    {{#if (eq sender.id ../../currentUserId)}}message-out{{/if}} 
+                                                    {{#unless (eq sender.id ../../currentUserId)}}align-items-start{{/unless}}">
+                                        <a href="#" class="avatar avatar-responsive {{#if (eq sender.id ../../currentUserId)}}d-none{{/if}}" data-bs-toggle="modal" data-bs-target="#modal-user-profile">
                                             
+                                            {{#if sender.photo}}
+                                                <img class="avatar-img" src="/img/avatars/{{sender.photo}}" alt="{{sender.username}}">
+                                            {{else}}
+                                                <div class="avatar avatar-online" title="{{sender.username}}">
+                                                    <span class="avatar-text" style="background:{{sender.avatarColor}};">
+                                                    {{uppercaseFirstLetter sender.username}}
+                                                    </span>
+                                                </div>
+                                            {{/if}}
+                                        </a>
+
+                                        <div class="message-inner">
+                                            <div class="message-body">
+                                            <div class="message-content">
+                                                <div class="message-text py-2 px-4">
+                                                <p>{{content}}</p>
+                                                
+                                                </div>
+                                                <div class="message-action">
+                                                    <div class="dropdown">
+                                                        <a class="icon text-muted" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
+                                                        </a>
+
+                                                        <ul class="dropdown-menu" style="">
+                                                            <li>
+                                                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                                                    <span class="me-auto">Modifier</span>
+                                                                    <div class="icon">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-3"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                                                                    </div>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                                                    <span class="me-auto">Répondre</span>
+                                                                    <div class="icon">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-corner-up-left"><polyline points="9 14 4 9 9 4"></polyline><path d="M20 20v-7a4 4 0 0 0-4-4H4"></path></svg>
+                                                                    </div>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <hr class="dropdown-divider">
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item d-flex align-items-center text-danger" href="#">
+                                                                    <span class="me-auto">Supprimer</span>
+                                                                    <div class="icon">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                                                                    </div>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="message-footer">
+                                                <span class="extra-small text-muted">
+                                                    {{formatTime createdAt}}
+                                                </span>
+                                                <small class="ms-2 float-end {{#unless (eq sender.id ../../currentUserId)}}d-none{{/unless}}">
+                                                    <svg width="15" fill="#000000" viewBox="0 0 24 24" id="check-double" data-name="Flat Line" xmlns="http://www.w3.org/2000/svg" class="icon flat-line"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><line id="primary" x1="13.22" y1="16.5" x2="21" y2="7.5" style="fill: none; stroke: #000000; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></line><polyline id="primary-2" data-name="primary" points="3 11.88 7 16.5 14.78 7.5" style="fill: none; stroke: #000000; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></polyline></g></svg>
+                                                </small>
+                                            </div>
                                             </div>
                                         </div>
-                                        <div class="message-footer">
-                                            <span class="extra-small text-muted">
-                                                {{formatTime createdAt}}
-                                            </span>
-                                            <small class="ms-2 float-end {{#unless (eq sender.id ../../currentUserId)}}d-none{{/unless}}">
-                                                <svg width="15" fill="#000000" viewBox="0 0 24 24" id="check-double" data-name="Flat Line" xmlns="http://www.w3.org/2000/svg" class="icon flat-line"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><line id="primary" x1="13.22" y1="16.5" x2="21" y2="7.5" style="fill: none; stroke: #000000; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></line><polyline id="primary-2" data-name="primary" points="3 11.88 7 16.5 14.78 7.5" style="fill: none; stroke: #000000; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></polyline></g></svg>
-                                            </small>
                                         </div>
-                                        </div>
-                                    </div>
-                                    </div>
-                                {{/each}}
-                                {{/each}}
+                                    {{/each}}
+                                    {{/each}}
 
-
+                                {{else}}
+                                    <div class="text-center text-muted py-5">
+                                        <p>Aucune conversation pour le moment.</p>
+                                    </div>
+                                {{/if}}
 
                             </div>
                         </div>
@@ -1750,10 +1802,6 @@
     <!-- Scripts -->
     {{> script}}
 
-
-
-    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
-
     <script>
 
         const socket = io("http://localhost:3000"); // ou ton domaine API
@@ -1828,6 +1876,9 @@
         });
 
         let typing = document.querySelector("#typingMessage_head")
+        let status_head = document.querySelector("#status_head")
+
+        let typingDisplayTimeout;
 
         socket.on("typing", ({ fromUserId }) => {
             //showTypingIndicator(fromUserId);
@@ -1835,8 +1886,13 @@
             console.log(typing)
             //typingLoad()
             if (typing) {
+                status_head.textContent ='écrit '
+                status_head.classList.add("text-warning")
                 typing.classList.remove("d-none")
                 scrollToBottom()
+
+                // Rafraîchit le timer pour éviter d’effacer trop tôt
+                clearTimeout(typingDisplayTimeout);
             }
         });
 
@@ -1844,7 +1900,15 @@
             //hideTypingIndicator(fromUserId);
             console.log(fromUserId + 'a arrete l\'ecriture')
             if (typing) {
-                typing.classList.add("d-none")
+                //status_head.textContent= 'connecté(e)'
+                //typing.classList.add("d-none")
+
+                typingDisplayTimeout = setTimeout(() => {
+                    status_head.classList.remove("text-warning")
+                    status_head.textContent = 'connecté(e)';
+                    typing.classList.add("d-none");
+                }, 3000); // délai ajustable
+
             }
         });
 
@@ -1892,61 +1956,6 @@
             });
         }
 
-        function showRealMessage(div, content, time){
-            const message = `
-                <div class="message message-out">
-                    <div class="message-inner">
-                        <div class="message-body">
-                        <div class="message-content">
-                            <div class="message-text py-2 px-4">
-                            <p>${content}</p>
-                            
-                            </div>
-                        </div>
-                        <div class="message-footer">
-                            <span class="extra-small text-muted">
-                                ${time}
-                            </span>
-                            <small class="ms-2 float-end ">
-                                <svg width="15" fill="#000000" viewBox="0 0 24 24" id="check-double" data-name="Flat Line" xmlns="http://www.w3.org/2000/svg" class="icon flat-line"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><line id="primary" x1="13.22" y1="16.5" x2="21" y2="7.5" style="fill: none; stroke: #000000; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></line><polyline id="primary-2" data-name="primary" points="3 11.88 7 16.5 14.78 7.5" style="fill: none; stroke: #000000; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></polyline></g></svg>
-                            </small>
-                        </div>
-                        </div>
-                    </div>
-                </div>
-            `
-
-            div.innerHTML += message
-
-        }
-
-        function showOtherMessage(div, content, time, user){
-            const message = `
-                <div class="message align-items-start">
-                    <a href="#" class="avatar avatar-responsive " data-bs-toggle="modal" data-bs-target="#modal-user-profile">
-                        <img class="avatar-img" src="${user.photo ? user.photo : '/img/avatars/2.jpg'}" alt="${user.username}">
-                    </a>
-
-                    <div class="message-inner">
-                        <div class="message-body">
-                        <div class="message-content">
-                            <div class="message-text py-2 px-4">
-                            <p>${content}</p>
-                            
-                            </div>
-                        </div>
-                        <div class="message-footer">
-                            <span class="extra-small text-muted">
-                                ${time}
-                            </span>
-                        </div>
-                        </div>
-                    </div>
-                </div>
-            `
-
-            div.innerHTML += message
-        }
     </script>
 
 </body>
