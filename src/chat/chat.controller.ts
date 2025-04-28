@@ -25,7 +25,7 @@ export class ChatController {
 
         const allMessages = messages.flatMap(c => c.messages);
 
-         // 👉 Grouper les messages par jour
+        // 👉 Grouper les messages par jour
         const groupedMessages = {};
         for (const message of allMessages) {
             const rawDate = dayjs(message.createdAt).format('dddd D MMMM'); // "lundi 22 avril"
@@ -40,13 +40,16 @@ export class ChatController {
         const users = await this.userService.findAll();
         // console.log(users);
 
+        const currentUrl = req.url;
+
         return {
             users,
-            lastMessage : lastMessage,
-            messages:groupedMessages,
+            lastMessage: lastMessage,
+            messages: groupedMessages,
             userId: otherUserId,     // 👈 envoyé à la vue
-            otherUser : otherUser,
+            otherUser: otherUser,
             currentUserId: currentUserId, // optionnel
+            currentUrl,
         };
     }
 
@@ -55,7 +58,7 @@ export class ChatController {
     async getGroupChatNew(@Param('groupId') groupId: string, @Req() req) {
         // const conversation = await this.chatService.getGroupConversation(groupId);
         const currentUserId = req.user?.id || 1
-        const group  = await this.chatService.getGroupConversation(groupId);
+        const group = await this.chatService.getGroupConversation(groupId);
 
         if (!group) {
             return { error: 'Groupe introuvable', messages: [] };
@@ -64,7 +67,7 @@ export class ChatController {
         // const allMessages = group.flatMap(c => c.messages);
         const allMessages = group.messages;
 
-         // 👉 Grouper les messages par jour
+        // 👉 Grouper les messages par jour
         const groupedMessages = {};
         for (const message of allMessages) {
             const rawDate = dayjs(message.createdAt).format('dddd D MMMM'); // "lundi 22 avril"
@@ -75,22 +78,23 @@ export class ChatController {
             }
             groupedMessages[dateKey].push(message);
         }
-        
+
         const lastMessage = await this.chatService.getUserConversationsSorted(currentUserId);
 
         const users = await this.userService.findAll();
+        const currentUrl = req.url;
+        // console.log(users); 
 
-        // console.log(users);
-        
 
         return {
             // conversation,
             users,
-            lastMessage : lastMessage,
-            group : group,
-            messages:groupedMessages,
+            lastMessage: lastMessage,
+            group: group,
+            messages: groupedMessages,
             currentUserId: currentUserId,
             groupId,
+            currentUrl,
         };
     }
 
@@ -98,10 +102,10 @@ export class ChatController {
         const d = dayjs(date);
         const today = dayjs();
         const yesterday = dayjs().subtract(1, 'day');
-    
+
         if (d.isSame(today, 'day')) return "Aujourd’hui";
         if (d.isSame(yesterday, 'day')) return "Hier";
-    
+
         // sinon, format en français
         const raw = d.format('dddd D MMMM'); // lundi 22 avril
         return raw.charAt(0).toUpperCase() + raw.slice(1); // Lundi 22 avril
@@ -130,6 +134,15 @@ export class ChatController {
     ) {
         const senderId = req.user?.id || 1;
         return this.chatService.sendGroupMessage(senderId, groupId, content);
+    }
+
+    @Post('message/private/visio/:userId')
+    async sendPrivateVisio(
+        @Param('userId') userId: number,
+        @Req() req,
+    ) {
+        const senderId = req.user?.id || 1;
+        return this.chatService.sendPrivateVisio(senderId, userId);
     }
 
     @Get('messages/:conversationId')

@@ -30,7 +30,7 @@
                                         </div>
 
                                         <input type="text" class="form-control form-control-lg ps-0"
-                                            placeholder="Search messages or users"
+                                            placeholder="Rechercher des messages ou utilisateurs"
                                             aria-label="Search for messages or users...">
                                     </div>
                                 </form>
@@ -125,7 +125,7 @@
                                                         <label for="floatingInput">Entrer le nom du groupe</label>
                                                     </div>
                                                 </div>
-                                                <div class="col-12">
+                                                <div class="col-12 d-none">
                                                     <div class="form-floating">
                                                         <textarea class="form-control" placeholder="Description"
                                                             id="floatingTextarea" rows="8" data-autosize="true"
@@ -278,7 +278,7 @@
                                     </div>
 
                                     <input type="text" class="form-control form-control-lg ps-0"
-                                        placeholder="Search messages or users"
+                                        placeholder="Rechercher des messages ou utilisateurs"
                                         aria-label="Search for messages or users...">
                                 </div>
                             </form>
@@ -844,7 +844,7 @@
                                     </div>
 
                                     <input type="text" class="form-control form-control-lg ps-0"
-                                        placeholder="Search messages or users"
+                                        placeholder="Rechercher des messages ou utilisateurs"
                                         aria-label="Search for messages or users...">
                                 </div>
                             </form>
@@ -855,7 +855,17 @@
 
                             {{#each lastMessage}}
                                 {{#if this.lastMessage}}
-                                    <a href="{{#if isGroup}}/chat/group/{{id}}{{else}}/chat/private/{{receiverId}}{{/if}}" class="card border-0 text-reset">
+
+                                    {{#if isGroup}}
+                                        {{~set 'chatLink' (concat '/chat/group/' id)~}}
+                                    {{else}}
+                                        {{~set 'chatLink' (concat '/chat/private/' receiverId)~}}
+                                    {{/if}}
+
+                                    {{chatLink}}
+
+                                    <a href="{{#if isGroup}}/chat/group/{{id}}{{else}}/chat/private/{{receiverId}}{{/if}}" class="card border-0 text-reset {{#if (startsWith @root.currentUrl (inline-if isGroup (concat '/chat/group/' id) (concat '/chat/private/' receiverId)))}}active{{/if}}">
+                                    
                                     <div class="card-body">
                                         <div class="row gx-5">
                                         <div class="col-auto">
@@ -871,7 +881,7 @@
                                         </div>
 
                                         <div class="col">
-                                            <div class="d-flex align-items-center mb-3">
+                                            <div class="d-flex align-items-center mb-1">
                                             <h5 class="me-auto mb-0">{{#if isGroup}}{{lastMessage.sender.username}}{{else}}{{receiverName}}{{/if}}</h5>
                                             <span class="text-muted extra-small ms-2">{{formatTime lastMessage.createdAt}}</span>
                                             </div>
@@ -970,7 +980,7 @@
                                     </div>
 
                                     <input type="text" class="form-control form-control-lg ps-0"
-                                        placeholder="Search messages or users"
+                                        placeholder="Rechercher des messages ou utilisateurs"
                                         aria-label="Search for messages or users...">
                                 </div>
                             </form>
@@ -1450,7 +1460,7 @@
                                     </div>
 
                                     <input type="text" class="form-control form-control-lg ps-0"
-                                        placeholder="Search messages or users"
+                                        placeholder="Rechercher des messages ou utilisateurs"
                                         aria-label="Search for messages or users...">
                                 </div>
                             </form>
@@ -1607,7 +1617,7 @@
 
                         <!-- Title -->
                         <div class="mb-8">
-                            <h2 class="fw-bold m-0">Settings</h2>
+                            <h2 class="fw-bold m-0">Paramètres</h2>
                         </div>
 
                         <!-- Search -->
@@ -1627,7 +1637,7 @@
                                     </div>
 
                                     <input type="text" class="form-control form-control-lg ps-0"
-                                        placeholder="Search messages or users"
+                                        placeholder="Rechercher des messages ou utilisateurs"
                                         aria-label="Search for messages or users...">
                                 </div>
                             </form>
@@ -1661,7 +1671,7 @@
                                         <p>wright@studio.com</p>
                                     </div>
                                     <div class="col-auto">
-                                        <a href="#" class="text-muted">
+                                        <a href="/auth/logout" class="text-muted">
                                             <div class="icon">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"

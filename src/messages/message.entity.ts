@@ -9,8 +9,14 @@ export class Message {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  content: string;
+  @Column({ default: 'text' })
+  type: 'text' | 'visio';  // Nouveau champ : type de message
+
+  @Column({ nullable: true })
+  content: string; // Vide pour une visio si besoin
+
+  @Column({ nullable: true })
+  callRoomId: string; // ID de la salle de visio associée (ex: 'room-abc123')
 
   @CreateDateColumn()
   createdAt: Date;

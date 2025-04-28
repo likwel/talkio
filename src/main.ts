@@ -47,6 +47,20 @@ async function bootstrap() {
 
   hbs.registerHelper('subtract', (a: number, b: number) => a - b);
 
+  hbs.registerHelper('concat', (...args) => args.slice(0, -1).join(''));
+  hbs.registerHelper('set', function (varName, varValue, options) {
+    if (!this._locals) this._locals = {};
+    this._locals[varName] = varValue; 
+  });
+
+  hbs.registerHelper('startsWith', (str, prefix) => {
+    if (typeof str !== 'string' || typeof prefix !== 'string') return false;
+    return str.startsWith(prefix);
+  });
+
+  hbs.registerHelper('inline-if', (condition, valueTrue, valueFalse) => {
+    return condition ? valueTrue : valueFalse;
+  });
   // console.log(jwt.sign({ email: 'eliefenohasina', password : '1234@azer' }));
 
 

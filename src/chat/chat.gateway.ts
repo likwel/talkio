@@ -84,11 +84,25 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     console.log(`✅ Client ${client.id} joined room group-${payload.groupId}`);
 
     this.server.to(`group-${payload.groupId}`).emit('groupMessage', message);
-    // this.server.to(`group-${payload.groupId}`).emit('groupSystem', {
-    //   message: `${payload.fromUserId} a rejoint le groupe`,
-    //   type: 'system',
-    // });
+  }
 
+  // Invitation à un appel visio privé
+  @SubscribeMessage('privateVisio')
+  async handlePrivateVisio(
+    @MessageBody()
+    payload: { toUserId: number; fromUserId: number },
+    @ConnectedSocket() client: Socket,
+  ) {
+    const message = await this.chatService.sendPrivateVisio(
+      payload.fromUserId,
+      payload.toUserId,
+    );
+
+    // envoyer au destinataire (room privée)
+    this.server.to(`user-${payload.toUserId}`).emit('privateVisio', message);
+
+    // écho à l'expéditeur
+    client.emit('privateVisio', message);
   }
 
   // Rejoindre une room
@@ -105,5 +119,48 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
       client.join(`group-${payload.groupId}`);
       console.log(`✅ Client ${client.id} joined room group-${payload.groupId}`);
     }
+  }
+
+  // 1. Quand un utilisateur rejoint une room
+  @SubscribeMessage('joinRoom')
+  handleJoinRoom(
+    @MessageBody() payload: { roomId: string },
+    @ConnectedSocket() client: Socket,
+  ) {
+    client.join(payload.roomId);
+    client.to(payload.roomId).emit('userJoined', { socketId: client.id });
+  }
+
+  // 2. Quand un utilisateur envoie une "offer"
+  @SubscribeMessage('offer')
+  handleOffer(
+    @MessageBody() payload: { roomId: string; offer: any; targetSocketId: string },
+  ) {
+    this.server.to(payload.targetSocketId).emit('offer', {
+      offer: payload.offer,
+      socketId: payload.targetSocketId,
+    });
+  }
+
+  // 3. Quand un utilisateur envoie une "answer"
+  @SubscribeMessage('answer')
+  handleAnswer(
+    @MessageBody() payload: { roomId: string; answer: any; targetSocketId: string },
+  ) {
+    this.server.to(payload.targetSocketId).emit('answer', {
+      answer: payload.answer,
+      socketId: payload.targetSocketId,
+    });
+  }
+
+  // 4. ICE candidate
+  @SubscribeMessage('ice-candidate')
+  handleIceCandidate(
+    @MessageBody() payload: { roomId: string; candidate: any; targetSocketId: string },
+  ) {
+    this.server.to(payload.targetSocketId).emit('ice-candidate', {
+      candidate: payload.candidate,
+      socketId: payload.targetSocketId,
+    });
   }
 }

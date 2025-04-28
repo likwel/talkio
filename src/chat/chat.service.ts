@@ -74,6 +74,47 @@ export class ChatService {
         return this.messageRepository.save(message);
     }
 
+    async sendPrivateVisio(senderId: number, receiverId: number) {
+        const sender = await this.userRepository.findOneBy({ id: senderId });
+        const receiver = await this.userRepository.findOneBy({ id: receiverId });
+    
+        if (!sender || !receiver) {
+            throw new Error('Utilisateur introuvable');
+        }
+    
+        const uniqueKey = [senderId, receiverId].sort((a, b) => a - b).join('-');
+    
+        let conversation = await this.conversationRepository.findOne({
+            where: {
+                uniquePrivateKey: uniqueKey,
+                isGroup: false,
+            },
+            relations: ['participants'],
+        });
+    
+        if (!conversation) {
+            conversation = this.conversationRepository.create({
+                name: `${sender.username} - ${receiver.username}`,
+                isGroup: false,
+                uniquePrivateKey: uniqueKey,
+                participants: [sender, receiver],
+            });
+            await this.conversationRepository.save(conversation);
+        }
+    
+        const callRoomId = `room-${Date.now()}-${senderId}-${receiverId}`; // génère un ID unique de salle de visio
+    
+        const message = this.messageRepository.create({
+            type: 'visio',  // CHANGEMENT ICI
+            content: '',                // pas de texte
+            callRoomId,                 // ID de la salle de visio
+            sender,
+            conversation,
+        });
+    
+        return this.messageRepository.save(message);
+    }
+
     async getPrivateMessages(userAId: number, userBId: number) {
         const conversation = await this.conversationRepository
             .createQueryBuilder('conversation')

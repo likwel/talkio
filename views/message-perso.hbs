@@ -59,16 +59,20 @@
                                                 <p class="text-truncate small"><span id="status_head">connecté(e)</span><span
                                                         class='typing-dots d-none' id="typingMessage_head"><span> •</span><span>•</span><span>•</span></span>
                                                 </p>
-                                                
                                             </div>
+                                            
                                         </div>
                                     </div>
                                     <!-- Title -->
 
                                     <!-- Toolbar -->
                                     <div class="col-xl-6 d-none d-xl-block">
+                                        
                                         <div class="row align-items-center justify-content-end gx-6">
-                                            <div class="col-auto">
+                                            <div class="col-auto d-flex justify-content-center">
+                                                <div class="me-5 send-visio">
+                                                    <svg width="25" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M170.666667 256h469.333333c46.933333 0 85.333333 38.4 85.333333 85.333333v341.333334c0 46.933333-38.4 85.333333-85.333333 85.333333H170.666667c-46.933333 0-85.333333-38.4-85.333334-85.333333V341.333333c0-46.933333 38.4-85.333333 85.333334-85.333333z" fill="#4CAF50"></path><path d="M938.666667 746.666667l-213.333334-128V405.333333l213.333334-128z" fill="#388E3C"></path></g></svg>
+                                                </div>
                                                 <a href="#" class="icon icon-lg text-muted" data-bs-toggle="offcanvas"
                                                     data-bs-target="#offcanvas-more" aria-controls="offcanvas-more">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -103,7 +107,10 @@
                             <!-- Content -->
 
                             <!-- Mobile: more -->
-                            <div class="col-2 d-xl-none text-end">
+                            <div class="col-2 d-xl-none text-end d-flex">
+                                <div class="me-5 send-visio" id="">
+                                    <svg width="25" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M170.666667 256h469.333333c46.933333 0 85.333333 38.4 85.333333 85.333333v341.333334c0 46.933333-38.4 85.333333-85.333333 85.333333H170.666667c-46.933333 0-85.333333-38.4-85.333334-85.333333V341.333333c0-46.933333 38.4-85.333333 85.333334-85.333333z" fill="#4CAF50"></path><path d="M938.666667 746.666667l-213.333334-128V405.333333l213.333334-128z" fill="#388E3C"></path></g></svg>
+                                </div>
                                 <a href="#" class="icon icon-lg text-muted" data-bs-toggle="offcanvas"
                                     data-bs-target="#offcanvas-more" aria-controls="offcanvas-more">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -1507,7 +1514,7 @@
                     <!-- List -->
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
-                            <a href="#" class="text-danger">Logout</a>
+                            <a href="/auth/logout" class="text-danger">Se déconnecter</a>
                         </li>
                     </ul>
                     <!-- List -->
@@ -1874,6 +1881,7 @@
                 console.error("💥 Erreur dans réception message :", err);
             }
         });
+        
 
         let typing = document.querySelector("#typingMessage_head")
         let status_head = document.querySelector("#status_head")
@@ -1953,6 +1961,50 @@
 
             clipboardSnippets.on('error', e => {
                 showTooltip(e.trigger, 'Copy failed!');
+            });
+        }
+
+        // réception des visios
+        socket.on("privateVisio", (message) => {
+            try {
+                console.log("💬 Message reçu :", message);
+
+                let body = document.querySelector(".chat-body-inner > div");
+                const isMine = message?.sender?.id === fromUserId;
+
+                if (isMine) {
+                    console.log("📤 Envoyé par moi :", message.callRoomId);
+                    const time = '16:39';
+                    showRealMessage(body, message.callRoomId, time);
+                } else {
+                    console.log("📥 Reçu :", message.callRoomId);
+                    const time = '16:39';
+                    showOtherMessage(body, message.callRoomId, time, message.sender);
+
+                    // ⬇️ Proposer d'accepter l'appel
+                    if (confirm("📞 Invitation à une visio. Voulez-vous accepter ?")) {
+                        startCall(message.sender.id); // Si accepte
+                    }
+                }
+
+                scrollToBottom();
+
+            } catch (err) {
+                console.error("💥 Erreur dans réception message :", err);
+            }
+        });
+
+        function bindVisioButtons() {
+            document.querySelectorAll(".send-visio").forEach(btn => {
+                btn.addEventListener("click", (e) => {
+                    e.preventDefault();
+
+                    await startCall(toUserId);
+                    /*socket.emit("privateVisio", {
+                        fromUserId,
+                        toUserId,
+                    });*/
+                });
             });
         }
 

@@ -68,8 +68,6 @@ function showOtherMessage(div, content, time, user) {
 let createGroupChat = document.querySelector("#createGroupChat")
 let floatingInput = document.querySelector("#floatingInput")
 
-console.log(createGroupChat);
-
 
 if (createGroupChat) {
     createGroupChat.addEventListener("click", () => {
