@@ -120,47 +120,74 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
       console.log(`✅ Client ${client.id} joined room group-${payload.groupId}`);
     }
   }
-
-  // 1. Quand un utilisateur rejoint une room
-  @SubscribeMessage('joinRoom')
-  handleJoinRoom(
-    @MessageBody() payload: { roomId: string },
+  @SubscribeMessage('webrtc-offer')
+  async handleWebrtcOffer(
+    @MessageBody() payload: { fromUserId: number; toUserId: number; offer: RTCSessionDescriptionInit },
     @ConnectedSocket() client: Socket,
   ) {
-    client.join(payload.roomId);
-    client.to(payload.roomId).emit('userJoined', { socketId: client.id });
-  }
-
-  // 2. Quand un utilisateur envoie une "offer"
-  @SubscribeMessage('offer')
-  handleOffer(
-    @MessageBody() payload: { roomId: string; offer: any; targetSocketId: string },
-  ) {
-    this.server.to(payload.targetSocketId).emit('offer', {
+    const message = await this.chatService.sendPrivateVisio(payload.fromUserId, payload.toUserId);
+    this.server.to(`user-${payload.toUserId}`).emit('webrtc-offer', {
+      fromUserId: payload.fromUserId,
       offer: payload.offer,
-      socketId: payload.targetSocketId,
+      callRoomId: message.callRoomId,
     });
+    client.emit('webrtc-offer', {
+      fromUserId: payload.fromUserId, 
+      offer: payload.offer, 
+      callRoomId: message.callRoomId,
+    });
+
+    // envoyer aussi le message de type 'visio' comme un message normal
+    this.server.to(`user-${payload.toUserId}`).emit('privateMessage', message);
+    client.emit('privateMessage', message); // retour à l’émetteur aussi
+    
   }
 
-  // 3. Quand un utilisateur envoie une "answer"
-  @SubscribeMessage('answer')
-  handleAnswer(
-    @MessageBody() payload: { roomId: string; answer: any; targetSocketId: string },
+  @SubscribeMessage('webrtc-answer')
+  handleWebrtcAnswer(
+    @MessageBody() payload: { fromUserId: number; toUserId: number; answer: RTCSessionDescriptionInit },
   ) {
-    this.server.to(payload.targetSocketId).emit('answer', {
+    this.server.to(`user-${payload.toUserId}`).emit('webrtc-answer', {
+      fromUserId: payload.fromUserId,
       answer: payload.answer,
-      socketId: payload.targetSocketId,
     });
   }
 
-  // 4. ICE candidate
-  @SubscribeMessage('ice-candidate')
-  handleIceCandidate(
-    @MessageBody() payload: { roomId: string; candidate: any; targetSocketId: string },
+  @SubscribeMessage('webrtc-ice-candidate')
+  handleWebrtcIceCandidate(
+    @MessageBody() payload: { fromUserId: number; toUserId: number; candidate: RTCIceCandidateInit },
   ) {
-    this.server.to(payload.targetSocketId).emit('ice-candidate', {
+    this.server.to(`user-${payload.toUserId}`).emit('webrtc-ice-candidate', {
+      fromUserId: payload.fromUserId,
       candidate: payload.candidate,
-      socketId: payload.targetSocketId,
     });
   }
+
+  @SubscribeMessage('invite-participant')
+  handleInviteParticipant(
+    @MessageBody() payload: { fromUserId: number; toUserId: number },
+    @ConnectedSocket() client: Socket,
+  ) {
+    // Envoi d'un message ou d'une alerte en temps réel
+    this.server.to(`user-${payload.toUserId}`).emit('receive-invitation', {
+      fromUserId: payload.fromUserId,
+      message: `🔔 Vous êtes invité(e) à rejoindre un appel !`,
+    });
+ 
+    client.emit('invitation-sent', {
+      toUserId: payload.toUserId,
+      status: 'success',
+    });
+  }
+
+  @SubscribeMessage('hangup-call')
+  async handleHangupCall(
+    @MessageBody() payload: { fromUserId: number; toUserId: number },
+  ) {
+    this.server.to(`user-${payload.toUserId}`).emit('call-ended', {
+      fromUserId: payload.fromUserId,
+    });
+    await this.chatService.updateCallEnded(payload.fromUserId, payload.toUserId);
+  }
+
 }

@@ -77,13 +77,13 @@ export class ChatService {
     async sendPrivateVisio(senderId: number, receiverId: number) {
         const sender = await this.userRepository.findOneBy({ id: senderId });
         const receiver = await this.userRepository.findOneBy({ id: receiverId });
-    
+
         if (!sender || !receiver) {
             throw new Error('Utilisateur introuvable');
         }
-    
+
         const uniqueKey = [senderId, receiverId].sort((a, b) => a - b).join('-');
-    
+
         let conversation = await this.conversationRepository.findOne({
             where: {
                 uniquePrivateKey: uniqueKey,
@@ -91,7 +91,7 @@ export class ChatService {
             },
             relations: ['participants'],
         });
-    
+
         if (!conversation) {
             conversation = this.conversationRepository.create({
                 name: `${sender.username} - ${receiver.username}`,
@@ -101,9 +101,9 @@ export class ChatService {
             });
             await this.conversationRepository.save(conversation);
         }
-    
+
         const callRoomId = `room-${Date.now()}-${senderId}-${receiverId}`; // génère un ID unique de salle de visio
-    
+
         const message = this.messageRepository.create({
             type: 'visio',  // CHANGEMENT ICI
             content: '',                // pas de texte
@@ -111,7 +111,7 @@ export class ChatService {
             sender,
             conversation,
         });
-    
+
         return this.messageRepository.save(message);
     }
 
@@ -225,5 +225,29 @@ export class ChatService {
             };
         });
     }
+
+    async updateCallEnded(senderId: number, receiverId: number) {
+        const uniqueKey = [senderId, receiverId].sort((a, b) => a - b).join('-');
+
+        const conversation = await this.conversationRepository.findOne({
+            where: {
+                uniquePrivateKey: uniqueKey,
+                isGroup: false,
+            },
+            relations: ['messages'],
+        });
+
+        if (!conversation) return;
+
+        const lastCallMessage = conversation.messages
+            .filter(m => m.type === 'visio')
+            .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())[0];
+
+        if (lastCallMessage) {
+            lastCallMessage.content = '[Appel terminé]';
+            await this.messageRepository.save(lastCallMessage);
+        }
+    }
+
 
 }

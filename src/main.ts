@@ -64,6 +64,6 @@ async function bootstrap() {
   // console.log(jwt.sign({ email: 'eliefenohasina', password : '1234@azer' }));
 
 
-  await app.listen(3000);
+  await app.listen(3000, '0.0.0.0');
 }
 bootstrap();

@@ -1,11 +1,36 @@
-function showRealMessage(div, content, time) {
-    const message = `
+function writeMessage(body, message, fromUserId){
+    const isMine = message?.sender?.id === fromUserId;
+
+    if (isMine) {
+        console.log("📤 Envoyé par moi :", message);
+
+        showRealMessage(body, message)
+
+    } else {
+        console.log("📥 Reçu :", message);
+
+        showOtherMessage(body, message)
+    }
+}
+
+function showRealMessage(div, message) {
+
+    const date = new Date(message.createdAt);
+    const time = date.toLocaleTimeString()
+
+    const finalMessage = message.type =='text' ? message.content : `
+    <div class="message-visio">
+        ↙️ <strong>Appel vidéo sortant...</strong><br>
+    </div>
+    `
+    
+    const messageContent = `
         <div class="message message-out">
             <div class="message-inner">
                 <div class="message-body">
                 <div class="message-content">
                     <div class="message-text py-2 px-4">
-                    <p>${content}</p>
+                    <p>${finalMessage}</p>
                     
                     </div>
                 </div>
@@ -22,23 +47,37 @@ function showRealMessage(div, content, time) {
         </div>
     `
 
-    div.innerHTML += message
+    div.innerHTML += messageContent
 
 }
 
-function showOtherMessage(div, content, time, user) {
+function showOtherMessage(div, message) {
 
-    const avatarHtml = user.photo
-        ? `<img class="avatar-img" src="/img/avatars/${user.photo}" alt="${user.username}">`
+    const date = new Date(message.createdAt);
+    const time = date.toLocaleTimeString()
+
+    const sender = message.sender
+
+    const finalMessage = message.type =='text' ? message.content : `
+    <div class="message-visio">
+        ↙️ <strong>Appel vidéo entrant</strong><br>
+        <button class="btn btn-sm btn-primary join-visio" data-room="${message.callRoomId}">
+            Rejoindre l'appel
+        </button>
+    </div>
+    `
+
+    const avatarHtml = sender.photo
+        ? `<img class="avatar-img" src="/img/avatars/${sender.photo}" alt="${sender.username}">`
         : `
-        <div class="avatar avatar-online" title="${user.username}">
-        <span class="avatar-text" style="background:${user.avatarColor};">
-            ${user.username.charAt(0).toUpperCase()}
+        <div class="avatar avatar-online" title="${sender.username}">
+        <span class="avatar-text" style="background:${sender.avatarColor};">
+            ${sender.username.charAt(0).toUpperCase()}
         </span>
         </div>
     `;
 
-    const message = `
+    const messageContent = `
         <div class="message align-items-start">
             <a href="#" class="avatar avatar-responsive " data-bs-toggle="modal" data-bs-target="#modal-user-profile">
                 ${avatarHtml}
@@ -48,7 +87,7 @@ function showOtherMessage(div, content, time, user) {
                 <div class="message-body">
                 <div class="message-content">
                     <div class="message-text py-2 px-4">
-                    <p>${content}</p>
+                    <p>${finalMessage}</p>
                     
                     </div>
                 </div>
@@ -62,7 +101,7 @@ function showOtherMessage(div, content, time, user) {
         </div>
     `
 
-    div.innerHTML += message
+    div.innerHTML += messageContent
 }
 
 let createGroupChat = document.querySelector("#createGroupChat")

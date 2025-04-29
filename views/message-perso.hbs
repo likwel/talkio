@@ -56,22 +56,37 @@
 
                                             <div class="col overflow-hidden">
                                                 <h5 class="text-truncate">{{otherUser.username}}</h5>
-                                                <p class="text-truncate small"><span id="status_head">connecté(e)</span><span
-                                                        class='typing-dots d-none' id="typingMessage_head"><span> •</span><span>•</span><span>•</span></span>
+                                                <p class="text-truncate small"><span
+                                                        id="status_head">connecté(e)</span><span
+                                                        class='typing-dots d-none' id="typingMessage_head"><span>
+                                                            •</span><span>•</span><span>•</span></span>
                                                 </p>
                                             </div>
-                                            
+
                                         </div>
                                     </div>
                                     <!-- Title -->
 
                                     <!-- Toolbar -->
                                     <div class="col-xl-6 d-none d-xl-block">
-                                        
+
                                         <div class="row align-items-center justify-content-end gx-6">
                                             <div class="col-auto d-flex justify-content-center">
                                                 <div class="me-5 send-visio">
-                                                    <svg width="25" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M170.666667 256h469.333333c46.933333 0 85.333333 38.4 85.333333 85.333333v341.333334c0 46.933333-38.4 85.333333-85.333333 85.333333H170.666667c-46.933333 0-85.333333-38.4-85.333334-85.333333V341.333333c0-46.933333 38.4-85.333333 85.333334-85.333333z" fill="#4CAF50"></path><path d="M938.666667 746.666667l-213.333334-128V405.333333l213.333334-128z" fill="#388E3C"></path></g></svg>
+                                                    <svg width="25" viewBox="0 0 1024 1024" class="icon" version="1.1"
+                                                        xmlns="http://www.w3.org/2000/svg" fill="#000000">
+                                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                            stroke-linejoin="round"></g>
+                                                        <g id="SVGRepo_iconCarrier">
+                                                            <path
+                                                                d="M170.666667 256h469.333333c46.933333 0 85.333333 38.4 85.333333 85.333333v341.333334c0 46.933333-38.4 85.333333-85.333333 85.333333H170.666667c-46.933333 0-85.333333-38.4-85.333334-85.333333V341.333333c0-46.933333 38.4-85.333333 85.333334-85.333333z"
+                                                                fill="#4CAF50"></path>
+                                                            <path
+                                                                d="M938.666667 746.666667l-213.333334-128V405.333333l213.333334-128z"
+                                                                fill="#388E3C"></path>
+                                                        </g>
+                                                    </svg>
                                                 </div>
                                                 <a href="#" class="icon icon-lg text-muted" data-bs-toggle="offcanvas"
                                                     data-bs-target="#offcanvas-more" aria-controls="offcanvas-more">
@@ -109,7 +124,19 @@
                             <!-- Mobile: more -->
                             <div class="col-2 d-xl-none text-end d-flex">
                                 <div class="me-5 send-visio" id="">
-                                    <svg width="25" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M170.666667 256h469.333333c46.933333 0 85.333333 38.4 85.333333 85.333333v341.333334c0 46.933333-38.4 85.333333-85.333333 85.333333H170.666667c-46.933333 0-85.333333-38.4-85.333334-85.333333V341.333333c0-46.933333 38.4-85.333333 85.333334-85.333333z" fill="#4CAF50"></path><path d="M938.666667 746.666667l-213.333334-128V405.333333l213.333334-128z" fill="#388E3C"></path></g></svg>
+                                    <svg width="25" viewBox="0 0 1024 1024" class="icon" version="1.1"
+                                        xmlns="http://www.w3.org/2000/svg" fill="#000000">
+                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
+                                        <g id="SVGRepo_iconCarrier">
+                                            <path
+                                                d="M170.666667 256h469.333333c46.933333 0 85.333333 38.4 85.333333 85.333333v341.333334c0 46.933333-38.4 85.333333-85.333333 85.333333H170.666667c-46.933333 0-85.333333-38.4-85.333334-85.333333V341.333333c0-46.933333 38.4-85.333333 85.333334-85.333333z"
+                                                fill="#4CAF50"></path>
+                                            <path d="M938.666667 746.666667l-213.333334-128V405.333333l213.333334-128z"
+                                                fill="#388E3C"></path>
+                                        </g>
+                                    </svg>
                                 </div>
                                 <a href="#" class="icon icon-lg text-muted" data-bs-toggle="offcanvas"
                                     data-bs-target="#offcanvas-more" aria-controls="offcanvas-more">
@@ -135,56 +162,100 @@
 
                                 {{#if (hasMessages messages)}}
 
-                                    {{#each messages}}
-                                    <!-- Divider par date -->
-                                    <div class="message-divider">
-                                        <small class="btn btn-light py-1">{{@key}}.</small>
-                                    </div>
+                                {{#each messages}}
+                                <!-- Divider par date -->
+                                <div class="message-divider">
+                                    <small class="btn btn-light py-1">{{@key}}.</small>
+                                </div>
 
-                                    {{#each this}}
-                                        <div class="message 
+                                {{#each this}}
+                                <div
+                                    class="message 
                                                     {{#if (eq sender.id ../../currentUserId)}}message-out{{/if}} 
                                                     {{#unless (eq sender.id ../../currentUserId)}}align-items-start{{/unless}}">
-                                        <a href="#" class="avatar avatar-responsive {{#if (eq sender.id ../../currentUserId)}}d-none{{/if}}" data-bs-toggle="modal" data-bs-target="#modal-user-profile">
-                                            
-                                            {{#if sender.photo}}
-                                                <img class="avatar-img" src="/img/avatars/{{sender.photo}}" alt="{{sender.username}}">
-                                            {{else}}
-                                                <div class="avatar avatar-online" title="{{sender.username}}">
-                                                    <span class="avatar-text" style="background:{{sender.avatarColor}};">
-                                                    {{uppercaseFirstLetter sender.username}}
-                                                    </span>
-                                                </div>
-                                            {{/if}}
-                                        </a>
+                                    <a href="#"
+                                        class="avatar avatar-responsive {{#if (eq sender.id ../../currentUserId)}}d-none{{/if}}"
+                                        data-bs-toggle="modal" data-bs-target="#modal-user-profile">
 
-                                        <div class="message-inner">
-                                            <div class="message-body">
+                                        {{#if sender.photo}}
+                                        <img class="avatar-img" src="/img/avatars/{{sender.photo}}"
+                                            alt="{{sender.username}}">
+                                        {{else}}
+                                        <div class="avatar avatar-online" title="{{sender.username}}">
+                                            <span class="avatar-text" style="background:{{sender.avatarColor}};">
+                                                {{uppercaseFirstLetter sender.username}}
+                                            </span>
+                                        </div>
+                                        {{/if}}
+                                    </a>
+
+                                    <div class="message-inner">
+                                        <div class="message-body">
                                             <div class="message-content">
+
+                                                {{#if (eq type "text")}}
                                                 <div class="message-text py-2 px-4">
-                                                <p>{{content}}</p>
-                                                
+                                                    {{content}}
                                                 </div>
+                                                {{else if (eq type "visio")}}
+                                                <div class="message-visio">
+                                                    ↙️ <strong>Appel visio</strong><br>
+                                                    <button class="btn btn-sm btn-primary join-visio"
+                                                        data-room="{{callRoomId}}">
+                                                        Rejoindre l'appel
+                                                    </button>
+                                                </div>
+                                                {{/if}}
+
                                                 <div class="message-action">
                                                     <div class="dropdown">
-                                                        <a class="icon text-muted" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
+                                                        <a class="icon text-muted" href="#" role="button"
+                                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                                height="24" viewBox="0 0 24 24" fill="none"
+                                                                stroke="currentColor" stroke-width="2"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="feather feather-more-vertical">
+                                                                <circle cx="12" cy="12" r="1"></circle>
+                                                                <circle cx="12" cy="5" r="1"></circle>
+                                                                <circle cx="12" cy="19" r="1"></circle>
+                                                            </svg>
                                                         </a>
 
                                                         <ul class="dropdown-menu" style="">
                                                             <li>
-                                                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                                                <a class="dropdown-item d-flex align-items-center"
+                                                                    href="#">
                                                                     <span class="me-auto">Modifier</span>
                                                                     <div class="icon">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-3"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                            width="24" height="24" viewBox="0 0 24 24"
+                                                                            fill="none" stroke="currentColor"
+                                                                            stroke-width="2" stroke-linecap="round"
+                                                                            stroke-linejoin="round"
+                                                                            class="feather feather-edit-3">
+                                                                            <path d="M12 20h9"></path>
+                                                                            <path
+                                                                                d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z">
+                                                                            </path>
+                                                                        </svg>
                                                                     </div>
                                                                 </a>
                                                             </li>
                                                             <li>
-                                                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                                                <a class="dropdown-item d-flex align-items-center"
+                                                                    href="#">
                                                                     <span class="me-auto">Répondre</span>
                                                                     <div class="icon">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-corner-up-left"><polyline points="9 14 4 9 9 4"></polyline><path d="M20 20v-7a4 4 0 0 0-4-4H4"></path></svg>
+                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                            width="24" height="24" viewBox="0 0 24 24"
+                                                                            fill="none" stroke="currentColor"
+                                                                            stroke-width="2" stroke-linecap="round"
+                                                                            stroke-linejoin="round"
+                                                                            class="feather feather-corner-up-left">
+                                                                            <polyline points="9 14 4 9 9 4"></polyline>
+                                                                            <path d="M20 20v-7a4 4 0 0 0-4-4H4"></path>
+                                                                        </svg>
                                                                     </div>
                                                                 </a>
                                                             </li>
@@ -192,10 +263,25 @@
                                                                 <hr class="dropdown-divider">
                                                             </li>
                                                             <li>
-                                                                <a class="dropdown-item d-flex align-items-center text-danger" href="#">
+                                                                <a class="dropdown-item d-flex align-items-center text-danger"
+                                                                    href="#">
                                                                     <span class="me-auto">Supprimer</span>
                                                                     <div class="icon">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                            width="24" height="24" viewBox="0 0 24 24"
+                                                                            fill="none" stroke="currentColor"
+                                                                            stroke-width="2" stroke-linecap="round"
+                                                                            stroke-linejoin="round"
+                                                                            class="feather feather-trash-2">
+                                                                            <polyline points="3 6 5 6 21 6"></polyline>
+                                                                            <path
+                                                                                d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                                                                            </path>
+                                                                            <line x1="10" y1="11" x2="10" y2="17">
+                                                                            </line>
+                                                                            <line x1="14" y1="11" x2="14" y2="17">
+                                                                            </line>
+                                                                        </svg>
                                                                     </div>
                                                                 </a>
                                                             </li>
@@ -207,20 +293,36 @@
                                                 <span class="extra-small text-muted">
                                                     {{formatTime createdAt}}
                                                 </span>
-                                                <small class="ms-2 float-end {{#unless (eq sender.id ../../currentUserId)}}d-none{{/unless}}">
-                                                    <svg width="15" fill="#000000" viewBox="0 0 24 24" id="check-double" data-name="Flat Line" xmlns="http://www.w3.org/2000/svg" class="icon flat-line"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><line id="primary" x1="13.22" y1="16.5" x2="21" y2="7.5" style="fill: none; stroke: #000000; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></line><polyline id="primary-2" data-name="primary" points="3 11.88 7 16.5 14.78 7.5" style="fill: none; stroke: #000000; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></polyline></g></svg>
+                                                <small
+                                                    class="ms-2 float-end {{#unless (eq sender.id ../../currentUserId)}}d-none{{/unless}}">
+                                                    <svg width="15" fill="#000000" viewBox="0 0 24 24" id="check-double"
+                                                        data-name="Flat Line" xmlns="http://www.w3.org/2000/svg"
+                                                        class="icon flat-line">
+                                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                            stroke-linejoin="round"></g>
+                                                        <g id="SVGRepo_iconCarrier">
+                                                            <line id="primary" x1="13.22" y1="16.5" x2="21" y2="7.5"
+                                                                style="fill: none; stroke: #000000; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;">
+                                                            </line>
+                                                            <polyline id="primary-2" data-name="primary"
+                                                                points="3 11.88 7 16.5 14.78 7.5"
+                                                                style="fill: none; stroke: #000000; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;">
+                                                            </polyline>
+                                                        </g>
+                                                    </svg>
                                                 </small>
                                             </div>
-                                            </div>
                                         </div>
-                                        </div>
-                                    {{/each}}
-                                    {{/each}}
+                                    </div>
+                                </div>
+                                {{/each}}
+                                {{/each}}
 
                                 {{else}}
-                                    <div class="text-center text-muted py-5">
-                                        <p>Aucune conversation pour le moment.</p>
-                                    </div>
+                                <div class="text-center text-muted py-5">
+                                    <p>Aucune conversation pour le moment.</p>
+                                </div>
                                 {{/if}}
 
                             </div>
@@ -1525,6 +1627,36 @@
         </div>
     </div>
 
+    <!-- Modal visio -->
+    <div class="modal fade" id="modal-visio" tabindex="-1" aria-labelledby="modal-visio" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl modal-fullscreen-xl-down">
+            <div class="modal-content">
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div id="video-container">
+                        <video id="localVideo" autoplay muted playsinline></video>
+                        <video id="remoteVideo" autoplay playsinline></video>
+                    </div>
+
+                    <div id="toolbar">
+                        <button id="toggleAudio">🔇 Audio</button>
+                        <button id="toggleVideo">📷 Vidéo</button>
+                        <button id="shareScreen">🖥️ Partager écran</button>
+                        <button id="inviteParticipant">➕ Ajouter participant</button>
+                        <button id="zoomToggle">🔍 Zoom</button>
+                        <button id="hangup">❌ Raccrocher</button>
+                    </div>
+
+                </div>
+                <!-- Modal body -->
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Visio -->
+
     <!-- Modal: User profile -->
     <div class="modal fade" id="modal-user-profile" tabindex="-1" aria-labelledby="modal-user-profile"
         aria-hidden="true">
@@ -1859,29 +1991,19 @@
         socket.on("privateMessage", (message) => {
 
             try {
-                console.log("💬 Message reçu :", message);
+                //console.log("💬 Message reçu :", message);
 
                 let body = document.querySelector(".chat-body-inner > div")
-                const isMine = message?.sender?.id === fromUserId;
-                if (isMine) {
-                    console.log("📤 Envoyé par moi :", message.content);
-
-                    const time = '16:39'
-                    showRealMessage(body, message.content, time)
-
-                } else {
-                    console.log("📥 Reçu :", message.content);
-                    const time = '16:39'
-                    showOtherMessage(body, message.content, time, message.sender)
-                }
+                
+                writeMessage(body, message, fromUserId)
 
                 scrollToBottom()
-                
+
             } catch (err) {
                 console.error("💥 Erreur dans réception message :", err);
             }
         });
-        
+
 
         let typing = document.querySelector("#typingMessage_head")
         let status_head = document.querySelector("#status_head")
@@ -1894,7 +2016,7 @@
             console.log(typing)
             //typingLoad()
             if (typing) {
-                status_head.textContent ='écrit '
+                status_head.textContent = 'écrit '
                 status_head.classList.add("text-warning")
                 typing.classList.remove("d-none")
                 scrollToBottom()
@@ -1994,19 +2116,238 @@
             }
         });
 
-        function bindVisioButtons() {
-            document.querySelectorAll(".send-visio").forEach(btn => {
-                btn.addEventListener("click", (e) => {
-                    e.preventDefault();
+        class VideoCallController {
+            constructor(socket, fromUserId, toUserId) {
+                this.socket = socket;
+                this.fromUserId = fromUserId;
+                this.toUserId = toUserId;
+                this.localStream = null;
+                this.peerConnection = null;
+                this.callRoomId = null;
+                this.isAudioEnabled = true;
+                this.isVideoEnabled = true;
+                this.isZoomed = false;
 
-                    await startCall(toUserId);
-                    /*socket.emit("privateVisio", {
-                        fromUserId,
-                        toUserId,
-                    });*/
+                this.config = {
+                    iceServers: [{ urls: "stun:stun.l.google.com:19302" }]
+                };
+
+                this.bindToolbarButtons();
+                this.setupSocketListeners();
+            }
+
+            async startCall() {
+                try {
+                    try {
+                        this.localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                    } catch (error) {
+                        console.warn('⚠️ Aucun média trouvé', error);
+                        this.localStream = null;
+                    }
+
+                    this.peerConnection = new RTCPeerConnection(this.config);
+
+                    if (this.localStream) {
+                        this.localStream.getTracks().forEach(track =>
+                            this.peerConnection.addTrack(track, this.localStream)
+                        );
+                        document.getElementById('localVideo').srcObject = this.localStream;
+                    }
+
+                    this.peerConnection.onicecandidate = ({ candidate }) => {
+                        if (candidate) {
+                            this.socket.emit('webrtc-ice-candidate', {
+                                fromUserId: this.fromUserId,
+                                toUserId: this.toUserId,
+                                candidate
+                            });
+                        }
+                    };
+
+                    this.peerConnection.ontrack = (event) => {
+                        document.getElementById('remoteVideo').srcObject = event.streams[0];
+                    };
+
+                    const offer = await this.peerConnection.createOffer();
+                    await this.peerConnection.setLocalDescription(offer);
+
+                    this.socket.emit('webrtc-offer', {
+                        fromUserId: this.fromUserId,
+                        toUserId: this.toUserId,
+                        offer
+                    });
+
+                } catch (error) {
+                    console.error("Erreur lors de l'appel :", error);
+                    alert("Erreur inattendue lors de l'appel");
+                }
+            }
+
+            hangup() {
+                if (this.peerConnection) {
+                    this.peerConnection.close();
+                    this.peerConnection = null;
+                }
+
+                if (this.localStream) {
+                    this.localStream.getTracks().forEach(track => track.stop());
+                    this.localStream = null;
+                }
+
+                document.getElementById('localVideo').srcObject = null;
+                document.getElementById('remoteVideo').srcObject = null;
+
+                this.socket.emit('hangup-call', {
+                    fromUserId: this.fromUserId,
+                    toUserId: this.toUserId
                 });
-            });
+
+                alert("📴 Appel terminé");
+            }
+
+            bindToolbarButtons() {
+                document.getElementById('toggleAudio').addEventListener('click', () => this.toggleAudio());
+                document.getElementById('toggleVideo').addEventListener('click', () => this.toggleVideo());
+                document.getElementById('shareScreen').addEventListener('click', () => this.shareScreen());
+                document.getElementById('inviteParticipant').addEventListener('click', () => this.inviteParticipant());
+                document.getElementById('zoomToggle').addEventListener('click', () => this.toggleZoom());
+                document.getElementById('hangup').addEventListener('click', () => this.hangup());
+            }
+
+            async toggleAudio() {
+                if (this.localStream) {
+                    this.isAudioEnabled = !this.isAudioEnabled;
+                    this.localStream.getAudioTracks().forEach(track => (track.enabled = this.isAudioEnabled));
+                    document.getElementById('toggleAudio').textContent = this.isAudioEnabled ? '🔇 Audio' : '🔊 Audio On';
+                }
+            }
+
+            async toggleVideo() {
+                if (this.localStream) {
+                    this.isVideoEnabled = !this.isVideoEnabled;
+                    this.localStream.getVideoTracks().forEach(track => (track.enabled = this.isVideoEnabled));
+                    document.getElementById('toggleVideo').textContent = this.isVideoEnabled ? '📷 Vidéo' : '🚫 Vidéo Off';
+                }
+            }
+
+            async shareScreen() {
+                try {
+                    const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+                    const videoTrack = screenStream.getVideoTracks()[0];
+
+                    const sender = this.peerConnection.getSenders().find(s => s.track.kind === 'video');
+                    if (sender) {
+                        sender.replaceTrack(videoTrack);
+                    }
+
+                    videoTrack.onended = () => {
+                        const localVideoTrack = this.localStream.getVideoTracks()[0];
+                        if (sender) {
+                            sender.replaceTrack(localVideoTrack);
+                        }
+                    };
+                } catch (err) {
+                    console.error('Erreur partage écran :', err);
+                }
+            }
+
+            inviteParticipant() {
+                const newUserId = prompt("ID du participant à inviter :");
+                if (newUserId) {
+                    this.socket.emit('invite-participant', { toUserId: newUserId });
+                    alert("Invitation envoyée à " + newUserId);
+                }
+            }
+
+            toggleZoom() {
+                const remoteVideo = document.getElementById('remoteVideo');
+                remoteVideo.style.transform = this.isZoomed ? 'scale(1)' : 'scale(1.5)';
+                this.isZoomed = !this.isZoomed;
+            }
+
+            setupSocketListeners() {
+                this.socket.on('webrtc-offer', async ({ fromUserId, offer, callRoomId }) => {
+                    this.callRoomId = callRoomId;
+                    this.toUserId = fromUserId;
+
+                    try {
+                        this.localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                    } catch (error) {
+                        this.localStream = null;
+                        console.warn('⚠️ Erreur d’accès aux médias', error);
+                        if (error.name === 'NotFoundError') {
+                            alert("Aucun micro ou caméra détecté sur cet appareil.");
+                        } else if (error.name === 'NotAllowedError') {
+                            alert("Accès à la caméra ou au micro refusé. Vérifiez les permissions navigateur.");
+                        } else {
+                            alert("Erreur d’accès aux médias : " + error.message);
+                        }
+                        return; // on arrête ici si pas de stream
+                    }
+
+                    document.getElementById('localVideo').srcObject = this.localStream;
+
+                    this.peerConnection = new RTCPeerConnection(this.config);
+                    this.localStream.getTracks().forEach(track => this.peerConnection.addTrack(track, this.localStream));
+
+                    this.peerConnection.onicecandidate = ({ candidate }) => {
+                        if (candidate) {
+                            this.socket.emit('webrtc-ice-candidate', {
+                                fromUserId: this.fromUserId,
+                                toUserId: this.toUserId,
+                                candidate
+                            });
+                        }
+                    };
+
+                    this.peerConnection.ontrack = (event) => {
+                        document.getElementById('remoteVideo').srcObject = event.streams[0];
+                    };
+
+                    await this.peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
+                    const answer = await this.peerConnection.createAnswer();
+                    await this.peerConnection.setLocalDescription(answer);
+
+                    this.socket.emit('webrtc-answer', {
+                        fromUserId: this.fromUserId,
+                        toUserId: this.toUserId,
+                        answer
+                    });
+                });
+
+
+                this.socket.on('webrtc-answer', async ({ answer }) => {
+                    await this.peerConnection.setRemoteDescription(new RTCSessionDescription(answer));
+                });
+
+                this.socket.on('webrtc-ice-candidate', async ({ candidate }) => {
+                    await this.peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+                });
+
+                this.socket.on('call-ended', () => {
+                    alert('📴 L\'autre utilisateur a terminé l\'appel.');
+                    this.hangup();
+                });
+
+                this.socket.on('receive-invitation', ({ fromUserId, message }) => {
+                    alert(message);
+                });
+            }
         }
+
+        const controller = new VideoCallController(socket, fromUserId, toUserId);
+
+        document.querySelectorAll(".send-visio").forEach(btn => {
+            btn.addEventListener("click", async (e) => {
+                e.preventDefault();
+                const modalElement = document.getElementById('modal-visio');
+                const modal = new bootstrap.Modal(modalElement);
+                modal.show();
+
+                await controller.startCall();
+            });
+        });
+
 
     </script>
 
