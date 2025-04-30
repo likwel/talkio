@@ -3,3 +3,8 @@
     border-left: 2px solid lightblue !important;
     background : lightcyan;
 }
+@media (max-width: 768px){
+    .avatar {
+      height: 25px !important;
+    }
+  }

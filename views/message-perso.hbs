@@ -193,14 +193,14 @@
                                         <div class="message-body">
                                             <div class="message-content">
 
-                                                {{#if (eq type "text")}}
-                                                <div class="message-text py-2 px-4">
-                                                    {{content}}
-                                                </div>
+                                                {{#if (or (eq type "text") content)}}
+                                                    <div class="message-text py-2 px-4">
+                                                        {{content}}
+                                                    </div>
                                                 {{else if (eq type "visio")}}
-                                                <div class="message-visio">
-                                                    ↙️ <strong>Appel visio</strong><br>
-                                                    <button class="btn btn-sm btn-primary join-visio"
+                                                <div class="message-text message-visio">
+                                                    ↙️ <strong>Appel vidéo</strong><br>
+                                                    <button class="btn btn-sm btn-outline-primary {{#if (eq sender.id ../../currentUserId)}}btn-outline-light{{/if}}  join-visio"
                                                         data-room="{{callRoomId}}">
                                                         Rejoindre l'appel
                                                     </button>
@@ -1997,7 +1997,6 @@
                 
                 writeMessage(body, message, fromUserId)
 
-                scrollToBottom()
 
             } catch (err) {
                 console.error("💥 Erreur dans réception message :", err);
@@ -2346,6 +2345,25 @@
 
                 await controller.startCall();
             });
+        });
+
+        document.addEventListener('click', (e) => {
+        if (e.target.classList.contains('join-visio')) {
+            const roomId = e.target.dataset.room;
+            if (roomId) {
+            /*window.location.href = `/visio/${roomId}`;
+            const fromUserId = parseInt(e.target.dataset.from);*/
+
+            // Afficher la modale
+            const modal = new bootstrap.Modal(document.getElementById('modal-visio'));
+            modal.show();
+
+            // Initialiser le contrôleur visio en tant que destinataire
+            const controller = new VideoCallController(socket, toUserId, fromUserId);
+            controller.callRoomId = roomId;
+            
+            }
+        }
         });
 
 

@@ -11,6 +11,11 @@ function writeMessage(body, message, fromUserId){
 
         showOtherMessage(body, message)
     }
+
+    // const messages = document.querySelectorAll('.chat-body-inner > .message');
+    // const lastMessage = messages[messages.length - 1];
+
+    // lastMessage?.scrollIntoView({ behavior: 'smooth' });
 }
 
 function showRealMessage(div, message) {
@@ -19,7 +24,7 @@ function showRealMessage(div, message) {
     const time = date.toLocaleTimeString()
 
     const finalMessage = message.type =='text' ? message.content : `
-    <div class="message-visio">
+    <div class="message-text text-white">
         ↙️ <strong>Appel vidéo sortant...</strong><br>
     </div>
     `

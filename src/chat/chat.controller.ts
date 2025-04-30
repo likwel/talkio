@@ -150,6 +150,12 @@ export class ChatController {
         return this.chatService.getMessages(id);
     }
 
+    @Get('room/:roomId')
+    @Render('visio') // rend la vue visio.hbs
+    async getVisioPage(@Param('roomId') roomId: string) {
+        return { roomId }; // accessible dans la vue {{roomId}}
+    }
+
     @Get('my')
     async getMyConversations(@Req() req) {
         const userId = req.user?.id || 1;

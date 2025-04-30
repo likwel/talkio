@@ -41,6 +41,14 @@ async function bootstrap() {
     return str.charAt(0).toUpperCase();
   });
 
+  hbs.registerHelper('and', function (a, b) {
+    return a && b;
+  });
+
+  hbs.registerHelper('or', function (a, b) {
+    return a || b;
+  });
+
   hbs.registerHelper('lt', (a: number, b: number) => a < b);
 
   hbs.registerHelper('gt', (a: number, b: number) => a > b);
