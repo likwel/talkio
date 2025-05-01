@@ -120,7 +120,7 @@
                         <!-- Chat: Content -->
                         <div class="chat-body hide-scrollbar flex-1 h-100">
                             <div class="chat-body-inner">
-                                <div class="py-6 py-lg-12">
+                                <div class="chat-list py-6 py-lg-12">
 
                                     {{#if (hasMessages messages)}}
 
@@ -1894,22 +1894,19 @@
             socket.on("groupMessage", (message) => {
 
                 try {
-                    console.log("💬 Message reçu :", message);
+                    //console.log("💬 Message reçu :", message);
 
-                    let body = document.querySelector(".chat-body-inner > div")
+                    let container = document.querySelector(".chat-body-inner > div")
                     const isMine = message?.sender?.id === fromUserId;
-                    if (isMine) {
-                        console.log("📤 Envoyé par moi :", message.content);
+                    writeMessage(container, message, fromUserId)
 
-                        const time = '16:39'
-                        showRealMessage(body, message.content, time)
+                    container.scrollTo({ top: 9e9, behavior: 'smooth' });
 
-                    } else {
-                        console.log("📥 Reçu :", message.content);
-                        const time = '16:39'
-                        showOtherMessage(body, message.content, time, message.sender)
-                    }
-                    scrollToBottom()
+                    setTimeout(r=>{
+                        container.scrollTop = 9e9;
+                    }, 1000)
+
+                    //scrollToBottom()
                     
                 } catch (err) {
                     console.error("💥 Erreur dans réception message :", err);

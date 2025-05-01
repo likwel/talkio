@@ -68,7 +68,7 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     client.emit('privateMessage', message);
   }
 
-  // Message groupe
+  // Message groupe 
   @SubscribeMessage('groupMessage')
   async handleGroupMessage(
     @MessageBody()
@@ -134,12 +134,12 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     client.emit('webrtc-offer', {
       fromUserId: payload.fromUserId, 
       offer: payload.offer, 
-      callRoomId: message.callRoomId,
+      callRoomId: message.callRoomId, 
     });
-
+ 
     // envoyer aussi le message de type 'visio' comme un message normal
     this.server.to(`user-${payload.toUserId}`).emit('privateMessage', message);
-    client.emit('privateMessage', message); // retour à l’émetteur aussi
+    client.emit('privateMessage', message); // retour à l’émetteur aussi 
     
   }
 
@@ -182,12 +182,12 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 
   @SubscribeMessage('hangup-call')
   async handleHangupCall(
-    @MessageBody() payload: { fromUserId: number; toUserId: number },
+    @MessageBody() payload: { messageId: number, fromUserId: number; toUserId: number },
   ) {
     this.server.to(`user-${payload.toUserId}`).emit('call-ended', {
       fromUserId: payload.fromUserId,
     });
-    await this.chatService.updateCallEnded(payload.fromUserId, payload.toUserId);
+    await this.chatService.updateCallEnded(payload.messageId, payload.fromUserId, payload.toUserId);
   }
 
 }

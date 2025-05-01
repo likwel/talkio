@@ -4,7 +4,8 @@
     background : darkslategray;
 }
 @media (max-width: 768px){
-    .avatar {
-      height: 25px !important;
+    .avatar-responsive > .avatar {
+      height: 26px !important;
+      width: 27px !important;
     }
   }

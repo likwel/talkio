@@ -226,12 +226,12 @@ export class ChatService {
         });
     }
 
-    async updateCallEnded(senderId: number, receiverId: number) {
+    async updateCallEnded(messageId: number, senderId: number, receiverId: number) {
         const uniqueKey = [senderId, receiverId].sort((a, b) => a - b).join('-');
 
         const conversation = await this.conversationRepository.findOne({
             where: {
-                uniquePrivateKey: uniqueKey,
+                id: messageId,
                 isGroup: false,
             },
             relations: ['messages'],
@@ -244,7 +244,7 @@ export class ChatService {
             .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())[0];
 
         if (lastCallMessage) {
-            lastCallMessage.content = '[Appel terminé]';
+            lastCallMessage.content = 'Appel terminé';
             await this.messageRepository.save(lastCallMessage);
         }
     }
