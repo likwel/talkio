@@ -1,8 +1,11 @@
-import { Controller, Post, Body, Request, UseGuards, Get, Res, Render } from '@nestjs/common';
+import { Controller, Post, Body, Request, UseGuards, Get, Res, Render,   UploadedFile, UseInterceptors } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { Response } from 'express';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
 
 @Controller('auth')
 export class AuthController {
@@ -67,8 +70,22 @@ export class AuthController {
     }
 
     @Post('register')
-    async register(@Body() body, @Res() res: Response) {
-        const created = await this.authService.register(body);
+    @UseInterceptors(
+        FileInterceptor('photo', {
+        storage: diskStorage({
+            destination: './uploads/photos',
+            filename: (req, file, cb) => {
+            const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+            const ext = extname(file.originalname);
+            cb(null, `photo-${uniqueSuffix}${ext}`);
+            },
+        }),
+        }),
+    )
+
+    @Post('register')
+    async register(@UploadedFile() file: Express.Multer.File, @Body() body, @Res() res: Response) {
+        const created = await this.authService.register(body, file?.filename);
         if (!created) {
             return res.render('register', { error: 'Email déjà utilisé' });
         }

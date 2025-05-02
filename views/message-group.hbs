@@ -150,7 +150,8 @@
                                                 <div class="message-body">
                                                 <div class="message-content">
                                                     <div class="message-text py-2 px-4">
-                                                    <p>{{content}}</p>
+                                                        {{#unless (eq sender.id ../../currentUserId)}}<small style="color:{{sender.avatarColor}};">~ {{sender.username}}.</small>{{/unless}}
+                                                        <p>{{content}}</p>
                                                     
                                                     </div>
                                                     <div class="message-action">

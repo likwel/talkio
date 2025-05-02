@@ -64,7 +64,7 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     // envoyer au destinataire (room privée)
     this.server.to(`user-${payload.toUserId}`).emit('privateMessage', message);
 
-    // écho à l'expéditeur
+    // écho à l'expéditeur 
     client.emit('privateMessage', message);
   }
 

@@ -13,11 +13,12 @@ export class AuthService {
         private jwtService: JwtService,
     ) { }
 
-    async register(userData: any) {
+    async register(userData: any, photoFilename?: string) {
         const hashedPassword = await bcrypt.hash(userData.password, 10);
         const user = await this.usersService.create({
             ...userData,
             password: hashedPassword,
+            photo: photoFilename ?? null,
         });
         return this.login(user); // facultatif, si tu veux renvoyer un token après inscription
     }
